@@ -25,12 +25,14 @@ function formatBody (string) {
       [`${newMsg[0]}PacerIn`]: pacerParser(newMsg[4]),
       [`${newMsg[0]}PacerOut`]: pacerParser(newMsg[5])
     }
+    console.log(body)
     return body
   }
   const body = {
     [`${newMsg[0]}In`]: newMsg[2],
     [`${newMsg[0]}Out`]: newMsg[3]
   }
+  console.log(body)
   return body
 }
 
@@ -56,6 +58,7 @@ router.post('/sms', (request, response) => {
   const twiml = new MessagingResponse()
   twiml.message('Message received!')
   const updateBody = formatBody(request.body.Body)
+  console.log(request.body.Body)
   const id = request.body.Body.replace(/,/g, '').split(' ')[1]
   queries.update(id, updateBody).then((record) => {
     response.writeHead(200, { 'Content-Type': 'text/xml' })
